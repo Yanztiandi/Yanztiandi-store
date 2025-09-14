@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Store Panel & Nokos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Animasi fade out untuk loading */
+    .fade-out {
+      opacity: 0;
+      transition: opacity 1s ease-out;
+      pointer-events: none;
+    }
+
+    /* Animasi fade in untuk konten utama */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease-out, transform 1s ease-out;
+    }
+    .fade-in.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Cursor blink typing effect */
+    .typing {
+      border-right: 3px solid #22c55e;
+      white-space: nowrap;
+      overflow: hidden;
+      display: inline-block;
+      animation: blink 0.7s infinite;
+    }
+    @keyframes blink {
+      0%, 100% { border-color: transparent; }
+      50% { border-color: #22c55e; }
+    }
+
+    /* Tombol Masuk ke Store pulse */
+    #enterBtn {
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 10px #22c55e;
+      }
+      50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 20px #22c55e;
+      }
+    }
+
+    /* Tombol BUY animasi hover */
+    .buy-btn {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .buy-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 15px rgba(0,0,0,0.5), 0 0 10px rgba(255,255,255,0.3);
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-white font-sans">
+  <!-- Loading Screen -->
+  <div id="loading" class="fixed inset-0 flex flex-col items-center justify-center bg-gray-900 z-50 space-y-4">
+    <h1 id="typingText" class="text-2xl font-bold text-green-400 typing"></h1>
+    <button id="enterBtn" class="bg-green-500 px-4 py-2 rounded-lg shadow hover:bg-green-600 text-white">Masuk ke Store</button>
+  </div>
+
+  <!-- Konten Utama -->
+  <div id="content" class="fade-in">
+    <!-- Header -->
+    <header class="bg-gray-800 shadow-lg p-4 text-center">
+      <h1 class="text-2xl font-bold">🛒 Store Panel & Nokos</h1>
+      <p class="text-sm text-gray-400">Channel Dev: 
+        <a href="https://whatsapp.com/channel/0029Vb61nTsCsU9WCwUwkj1s" class="text-green-400 underline">Klik Disini</a>
+      </p>
+    </header>
+
+    <main class="p-4 space-y-8">
+      <!-- MENU PANEL -->
+      <section>
+        <h2 class="text-xl font-semibold mb-2">📌 Menu Panel</h2>
+        <div class="space-y-2">
+          <p>Ram 1GB - 10GB (Harga beda 2K tiap level)</p>
+          <p>Panel Unlimited (beda 3K dari atas)</p>
+        </div>
+      </section>
+
+      <!-- AKSES PANEL -->
+      <section>
+        <h2 class="text-xl font-semibold mb-2">📌 Akses Panel 2</h2>
+        <ul class="list-disc pl-5 space-y-1">
+          <li>Reseller - 5K</li>
+          <li>Admin Panel - 8K</li>
+          <li>PT Panel - 10K</li>
+          <li>Owner Panel - 13K</li>
+        </ul>
+      </section>
+
+      <!-- NOKOS WA -->
+      <section>
+        <h2 class="text-xl font-semibold mb-2">📌 Menu 3: Nokos WA Indonesia</h2>
+        <ul class="list-disc pl-5 space-y-1">
+          <li>SV 5 Tahun - 25K</li>
+          <li>SV 1 Tahun (Unlimited Verif) - 30K</li>
+          <li>SV 3 Bulan - 9K</li>
+        </ul>
+      </section>
+
+      <!-- NOKOS TELEGRAM -->
+      <section>
+        <h2 class="text-xl font-semibold mb-2">📌 Menu 4: Nokos Telegram Indonesia</h2>
+        <p>10K (Sisa 3)</p>
+      </section>
+
+      <!-- BUY BUTTON -->
+      <section class="text-center space-x-4 mt-6">
+        <h2 class="text-lg font-semibold mb-3">💳 Pilih Metode Pembelian</h2>
+        <a href="https://wa.me/6265719253841?text=Halo%20saya%20ingin%20beli%20produk%20Anda" 
+           class="buy-btn bg-green-500 px-4 py-2 rounded-lg shadow hover:bg-green-600">Buy via WhatsApp</a>
+        <a href="https://t.me/Yanztiandi" 
+           class="buy-btn bg-blue-500 px-4 py-2 rounded-lg shadow hover:bg-blue-600">Buy via Telegram</a>
+        <a href="mailto:aingweh71@gmail.com?subject=Pembelian%20Produk&body=Halo,%20saya%20ingin%20membeli%20produk%20[masukkan%20nama%20produk%20di%20sini]" 
+           class="buy-btn bg-yellow-500 px-4 py-2 rounded-lg shadow hover:bg-yellow-600">Buy via Email</a>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-center p-3 mt-8 text-gray-400 text-sm">
+      © 2025 Store Panel & Nokos. All rights reserved.
+    </footer>
+  </div>
+
+  <script>
+    const text = "Welcome to Yanztiandi Store";
+    const typingText = document.getElementById("typingText");
+    let index = 0;
+    let isDeleting = false;
+
+    function typeLoop() {
+      if (!isDeleting && index <= text.length) {
+        typingText.textContent = text.substring(0, index);
+        index++;
+        setTimeout(typeLoop, 100);
+      } else if (isDeleting && index >= 0) {
+        typingText.textContent = text.substring(0, index);
+        index--;
+        setTimeout(typeLoop, 50);
+      }
+
+      if (index === text.length) {
+        setTimeout(() => { isDeleting = true; typeLoop(); }, 1000);
+      } else if (isDeleting && index === 0) {
+        isDeleting = false;
+        setTimeout(typeLoop, 300);
+      }
+    }
+    typeLoop();
+
+    // Tombol "Masuk ke Store"
+    const enterBtn = document.getElementById("enterBtn");
+    enterBtn.addEventListener("click", () => {
+      document.getElementById("loading").classList.add("fade-out");
+      document.getElementById("content").classList.add("show");
+    });
+
+    // Bisa juga tekan tombol Enter keyboard
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        document.getElementById("loading").classList.add("fade-out");
+        document.getElementById("content").classList.add("show");
+      }
+    });
+  </script>
+</body>
+</html>
