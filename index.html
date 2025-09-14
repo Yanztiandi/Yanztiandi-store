@@ -14,7 +14,7 @@
       content: "";
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.75);
+      background: rgba(0,0,0,0.35); /* lebih terang biar foto keliatan */
       z-index: -1;
     }
     .fade-out { opacity: 0; transition: opacity 1s ease-out; pointer-events: none; }
@@ -52,42 +52,13 @@
       <!-- PANEL RAM -->
       <section class="bg-gray-800/80 rounded-xl p-5 shadow space-y-4">
         <h2 class="text-xl font-semibold mb-3">📌 Menu Panel RAM</h2>
-        <div class="space-y-4">
-          <!-- RAM Loop -->
-          <!-- Harga naik 2K tiap level -->
-          <script>
-            const ramContainer = [];
-            const hargaAwal = 10;
-            for (let i=1; i<=10; i++) {
-              let harga = hargaAwal + (i-1)*2;
-              ramContainer.push(`
-                <div>
-                  <p>RAM ${i}GB - ${harga}K</p>
-                  <div class="flex space-x-2 mt-2">
-                    <a href="https://wa.me/6265719253841?text=BG%20YANZ%20mau%20beli%20RAM%20${i}GB%20-%20${harga}K" class="buy-btn bg-green-500 px-3 py-1 rounded-lg text-sm">WhatsApp</a>
-                    <a href="https://t.me/Yanztiandi?text=BG%20YANZ%20mau%20beli%20RAM%20${i}GB%20-%20${harga}K" class="buy-btn bg-blue-500 px-3 py-1 rounded-lg text-sm">Telegram</a>
-                    <a href="mailto:aingweh71@gmail.com?subject=Order%20RAM%20${i}GB&body=BG%20YANZ%20mau%20beli%20RAM%20${i}GB%20-%20${harga}K" class="buy-btn bg-yellow-500 px-3 py-1 rounded-lg text-sm">Gmail</a>
-                  </div>
-                </div>
-              `);
-            }
-            document.write(ramContainer.join(""));
-          </script>
-        </div>
+        <div class="space-y-4" id="ramList"></div>
       </section>
 
       <!-- PANEL UNLIMITED -->
       <section class="bg-gray-800/80 rounded-xl p-5 shadow space-y-4">
         <h2 class="text-xl font-semibold mb-3">📌 Panel Unlimited</h2>
-        <p>Harga +3K dari RAM</p>
-        <div>
-          <p>Panel Unlimited - 13K</p>
-          <div class="flex space-x-2 mt-2">
-            <a href="https://wa.me/6265719253841?text=BG%20YANZ%20mau%20beli%20Panel%20Unlimited%20-%2013K" class="buy-btn bg-green-500 px-3 py-1 rounded-lg text-sm">WhatsApp</a>
-            <a href="https://t.me/Yanztiandi?text=BG%20YANZ%20mau%20beli%20Panel%20Unlimited%20-%2013K" class="buy-btn bg-blue-500 px-3 py-1 rounded-lg text-sm">Telegram</a>
-            <a href="mailto:aingweh71@gmail.com?subject=Order%20Panel%20Unlimited&body=BG%20YANZ%20mau%20beli%20Panel%20Unlimited%20-%2013K" class="buy-btn bg-yellow-500 px-3 py-1 rounded-lg text-sm">Gmail</a>
-          </div>
-        </div>
+        <div class="space-y-4" id="unliList"></div>
       </section>
 
       <!-- AKSES PANEL -->
@@ -155,6 +126,7 @@
   </div>
 
   <script>
+    // Animasi typing
     const text = "Welcome to Yanztiandi Store";
     const typingText = document.getElementById("typingText");
     let index = 0, isDeleting = false;
@@ -172,6 +144,8 @@
       else if (isDeleting && index === 0) { isDeleting = false; setTimeout(typeLoop, 300); }
     }
     typeLoop();
+
+    // Tombol masuk
     const enterBtn = document.getElementById("enterBtn");
     enterBtn.addEventListener("click", () => {
       document.getElementById("loading").classList.add("fade-out");
@@ -183,6 +157,35 @@
         document.getElementById("content").classList.add("show");
       }
     });
+
+    // Generate RAM
+    const ramList = document.getElementById("ramList");
+    const unliList = document.getElementById("unliList");
+    const hargaAwal = 10;
+    for (let i=1; i<=10; i++) {
+      let harga = hargaAwal + (i-1)*2;
+      ramList.innerHTML += `
+        <div>
+          <p>RAM ${i}GB - ${harga}K</p>
+          <div class="flex space-x-2 mt-2">
+            <a href="https://wa.me/6265719253841?text=BG%20YANZ%20mau%20beli%20RAM%20${i}GB%20-%20${harga}K" class="buy-btn bg-green-500 px-3 py-1 rounded-lg text-sm">WhatsApp</a>
+            <a href="https://t.me/Yanztiandi?text=BG%20YANZ%20mau%20beli%20RAM%20${i}GB%20-%20${harga}K" class="buy-btn bg-blue-500 px-3 py-1 rounded-lg text-sm">Telegram</a>
+            <a href="mailto:aingweh71@gmail.com?subject=Order%20RAM%20${i}GB&body=BG%20YANZ%20mau%20beli%20RAM%20${i}GB%20-%20${harga}K" class="buy-btn bg-yellow-500 px-3 py-1 rounded-lg text-sm">Gmail</a>
+          </div>
+        </div>
+      `;
+      let hargaUnli = harga + 3;
+      unliList.innerHTML += `
+        <div>
+          <p>Panel Unlimited RAM ${i}GB - ${hargaUnli}K</p>
+          <div class="flex space-x-2 mt-2">
+            <a href="https://wa.me/6265719253841?text=BG%20YANZ%20mau%20beli%20Panel%20Unlimited%20RAM%20${i}GB%20-%20${hargaUnli}K" class="buy-btn bg-green-500 px-3 py-1 rounded-lg text-sm">WhatsApp</a>
+            <a href="https://t.me/Yanztiandi?text=BG%20YANZ%20mau%20beli%20Panel%20Unlimited%20RAM%20${i}GB%20-%20${hargaUnli}K" class="buy-btn bg-blue-500 px-3 py-1 rounded-lg text-sm">Telegram</a>
+            <a href="mailto:aingweh71@gmail.com?subject=Order%20Panel%20Unlimited%20RAM%20${i}GB&body=BG%20YANZ%20mau%20beli%20Panel%20Unlimited%20RAM%20${i}GB%20-%20${hargaUnli}K" class="buy-btn bg-yellow-500 px-3 py-1 rounded-lg text-sm">Gmail</a>
+          </div>
+        </div>
+      `;
+    }
   </script>
 </body>
 </html>
