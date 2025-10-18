@@ -3,196 +3,198 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>YANZ STOR</title>
+  <title>YANZ SHADOW STORE</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
+    /* FONT & BASE */
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@300;500;700&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      background-color: #0a0a0a;
+      background: radial-gradient(circle at top left, #000 40%, #1a001a);
       color: white;
+      font-family: 'Poppins', sans-serif;
       overflow-x: hidden;
-    }
-
-    header {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      text-align: center;
-      overflow: hidden;
-    }
-
-    header img {
-      width: 280px;
-      border-radius: 20px;
-      opacity: 0;
-      transform: scale(0.8);
-      animation: fadeIn 2s ease forwards;
-      animation-delay: 0.8s;
-    }
-
-    header h1 {
-      font-size: 2.5em;
-      color: #b800ff;
-      opacity: 0;
-      transform: translateX(100%);
-      animation: slideIn 2s ease forwards;
-      animation-delay: 1.5s;
-      margin-top: 20px;
-    }
-
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    @keyframes slideIn {
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    section {
-      padding: 60px 20px;
-      background: #111;
       min-height: 100vh;
+      position: relative;
     }
 
-    h2 {
-      text-align: center;
-      color: #b800ff;
-      margin-bottom: 30px;
+    /* HOLOGRAM PARTICLES */
+    .holo {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: url('https://i.ibb.co/ZfLxH3f/nebula-purple.gif');
+      background-size: cover;
+      opacity: 0.3;
+      z-index: -1;
+      animation: floatBg 15s infinite alternate ease-in-out;
+      filter: blur(3px);
     }
 
-    .produk-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
+    @keyframes floatBg {
+      0% { background-position: 0 0; }
+      100% { background-position: 100% 100%; }
     }
 
-    .card {
-      background: #1a1a1a;
-      border: 1px solid #333;
+    /* LOGO & HEADER */
+    .logo {
+      width: 200px;
+      margin-top: 50px;
+      border-radius: 20px;
+      box-shadow: 0 0 30px #a020f0;
+      animation: slideInLeft 2s ease, pulseGlow 3s infinite ease-in-out;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 45px;
+      margin-top: 20px;
+      color: #c77dff;
+      text-shadow: 0 0 15px purple;
+      animation: slideInRight 2s ease, neonText 3s infinite alternate;
+    }
+
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-100px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(100px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes pulseGlow {
+      0%,100% { box-shadow: 0 0 20px purple; }
+      50% { box-shadow: 0 0 40px #b966ff; }
+    }
+
+    @keyframes neonText {
+      from { text-shadow: 0 0 10px #b400ff; }
+      to { text-shadow: 0 0 25px #ff00ff; }
+    }
+
+    /* PRODUCT CARD */
+    .product {
+      background: rgba(20, 0, 30, 0.7);
+      backdrop-filter: blur(10px);
+      margin: 20px auto;
+      padding: 15px;
+      width: 90%;
+      max-width: 400px;
       border-radius: 15px;
-      padding: 20px;
-      text-align: center;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 0 20px #7a00cc;
+      transition: 0.4s;
+      animation: pulseCard 3s infinite ease-in-out;
     }
 
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 20px #b800ff44;
+    .product:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 40px #d28cff;
     }
 
-    .card h3 {
-      color: #fff;
-      margin-bottom: 10px;
+    @keyframes pulseCard {
+      0%,100% { box-shadow: 0 0 15px #7a00cc; }
+      50% { box-shadow: 0 0 35px #b266ff; }
+    }
+
+    .product h3 {
+      color: #d0aaff;
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
     }
 
     .price {
-      color: #b800ff;
-      font-weight: bold;
-      margin-bottom: 15px;
+      color: #fff;
+      font-size: 18px;
+      margin: 5px 0;
     }
 
-    .btn {
-      display: inline-block;
-      padding: 10px 15px;
-      background: #b800ff;
+    .buy-btn {
+      background-color: #6a0dad;
       color: white;
+      border: none;
+      padding: 10px 15px;
       border-radius: 8px;
-      text-decoration: none;
-      transition: background 0.3s;
-      margin: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-family: 'Orbitron', sans-serif;
     }
 
-    .btn:hover {
-      background: #7a00b3;
+    .buy-btn:hover {
+      background-color: #9b30ff;
+      transform: scale(1.1);
+      box-shadow: 0 0 15px #c77dff;
     }
 
     footer {
-      text-align: center;
-      padding: 20px;
-      background: #0a0a0a;
-      border-top: 1px solid #333;
-      color: #666;
+      margin: 40px 0 20px;
+      color: #999;
+      font-size: 14px;
     }
+
+    a { color: #b366ff; text-decoration: none; }
   </style>
 </head>
 <body>
-  <header>
-    <img src="https://files.catbox.moe/4l7s2x.jpg" alt="YANZ SHADOW" />
+
+  <div class="holo"></div>
+
+  <center>
+    <img src="yanz-shadow.png" alt="YANZ SHADOW" class="logo">
     <h1>WELCOME TO YANZ STOR</h1>
-  </header>
+  </center>
 
-  <section>
-    <h2>🔥 MENU JUALAN PANEL 🔥</h2>
-    <div class="produk-grid" id="panel-list"></div>
-  </section>
-
-  <section>
-    <h2>💀 SCRIPT BUG WA 💀</h2>
-    <div class="produk-grid" id="script-list"></div>
-  </section>
+  <!-- PRODUK -->
+  <div id="menu"></div>
 
   <footer>
-    © 2025 YANZ STOR | All Rights Reserved
+    © 2025 YANZ SHADOW | 
+    <a href="https://wa.me/6285719253841">WhatsApp</a> • 
+    <a href="https://t.me/yanztiandi">Telegram</a>
   </footer>
 
   <script>
-    const waNumber = "6285719253841";
-    const telegramUser = "yanztiandi";
-
-    const panels = [
-      { name: "Panel RAM 1 GB", price: "Rp 1.000" },
-      { name: "Panel RAM 2 GB", price: "Rp 2.000" },
-      { name: "Panel RAM 3 GB", price: "Rp 3.000" },
-      { name: "Panel RAM 4 GB", price: "Rp 4.000" },
-      { name: "Panel RAM 5 GB", price: "Rp 5.000" },
-      { name: "Panel RAM 6 GB", price: "Rp 6.000" },
-      { name: "Panel RAM 7 GB", price: "Rp 7.000" },
-      { name: "Panel RAM 8 GB", price: "Rp 8.000" },
-      { name: "Panel RAM 9 GB", price: "Rp 9.000" },
-      { name: "Panel RAM 10 GB", price: "Rp 10.000" },
-      { name: "PANEL UNLIMITED", price: "Rp 5.000" },
-      { name: "AKSES PANEL", price: "Rp 6.000" },
-      { name: "ADMIN PANEL", price: "Rp 8.000" },
-      { name: "PT PANEL", price: "Rp 10.000" },
-      { name: "OWNER PANEL", price: "Rp 12.000" },
+    const products = [
+      {name:"Panel Hosting RAM 1 GB", price:"Rp 1.000"},
+      {name:"Panel Hosting RAM 2 GB", price:"Rp 2.000"},
+      {name:"Panel Hosting RAM 3 GB", price:"Rp 3.000"},
+      {name:"Panel Hosting RAM 4 GB", price:"Rp 4.000"},
+      {name:"Panel Hosting RAM 5 GB", price:"Rp 5.000"},
+      {name:"Panel Hosting RAM 6 GB", price:"Rp 6.000"},
+      {name:"Panel Hosting RAM 7 GB", price:"Rp 7.000"},
+      {name:"Panel Hosting RAM 8 GB", price:"Rp 8.000"},
+      {name:"Panel Hosting RAM 9 GB", price:"Rp 9.000"},
+      {name:"Panel Hosting RAM 10 GB", price:"Rp 10.000"},
+      {name:"Panel Unlimited", price:"Rp 5.000"},
+      {name:"Akses Panel", price:"Rp 6.000"},
+      {name:"Reseller Panel", price:"Rp 6.000"},
+      {name:"Admin Panel", price:"Rp 8.000"},
+      {name:"PT Panel", price:"Rp 10.000"},
+      {name:"Owner Panel", price:"Rp 12.000"},
+      {name:"SC BUG WA HIDEUNG CRASH (ENC)", price:"-"},
+      {name:"SC BUG WA HIDEUNG CRASH (NO ENC)", price:"-"}
     ];
 
-    const scripts = [
-      { name: "HIDEUNG CRASH (ENC)", price: "Hubungi Admin" },
-      { name: "HIDEUNG CRASH (NO ENC)", price: "Hubungi Admin" },
-    ];
-
-    const panelContainer = document.getElementById("panel-list");
-    const scriptContainer = document.getElementById("script-list");
-
-    function makeCard(item) {
-      const msg = encodeURIComponent(`Bang Yanz, mau buy ${item.name}`);
-      return `
-        <div class="card">
-          <h3>${item.name}</h3>
-          <p class="price">${item.price}</p>
-          <a href="https://wa.me/${waNumber}?text=${msg}" target="_blank" class="btn">Buy via WhatsApp</a>
-          <a href="https://t.me/${telegramUser}" target="_blank" class="btn">Buy via Telegram</a>
+    const menu = document.getElementById('menu');
+    products.forEach(p => {
+      menu.innerHTML += `
+        <div class="product">
+          <h3>${p.name}</h3>
+          <p class="price">${p.price}</p>
+          <button class="buy-btn" onclick="buy('${p.name} - ${p.price}')">BUY</button>
         </div>
       `;
-    }
+    });
 
-    panelContainer.innerHTML = panels.map(makeCard).join("");
-    scriptContainer.innerHTML = scripts.map(makeCard).join("");
+    function buy(item) {
+      const msg = encodeURIComponent(`Bang Yanz mau buy ${item}`);
+      const wa = `https://wa.me/6285719253841?text=${msg}`;
+      const tg = `https://t.me/yanztiandi`;
+      const choose = confirm("Kirim via WhatsApp? (OK = WhatsApp / Cancel = Telegram)");
+      if (choose) window.open(wa, '_blank');
+      else window.open(tg, '_blank');
+    }
   </script>
 </body>
 </html>
