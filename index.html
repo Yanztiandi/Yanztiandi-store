@@ -1,191 +1,198 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Store Panel & Nokos</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YANZ STOR</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
     body {
-      background: url('https://files.catbox.moe/dkdkdv.jpeg') no-repeat center center fixed;
-      background-size: cover;
+      background-color: #0a0a0a;
+      color: white;
+      overflow-x: hidden;
     }
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.35); /* lebih terang biar foto keliatan */
-      z-index: -1;
+
+    header {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      text-align: center;
+      overflow: hidden;
     }
-    .fade-out { opacity: 0; transition: opacity 1s ease-out; pointer-events: none; }
-    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 1s ease-out, transform 1s ease-out; }
-    .fade-in.show { opacity: 1; transform: translateY(0); }
-    .typing { border-right: 3px solid #22c55e; white-space: nowrap; overflow: hidden; display: inline-block; animation: blink 0.7s infinite; }
-    @keyframes blink { 0%, 100% { border-color: transparent; } 50% { border-color: #22c55e; } }
-    #enterBtn { animation: pulse 1.5s infinite; }
-    @keyframes pulse { 0%, 100% { transform: scale(1); box-shadow: 0 0 10px #22c55e; } 50% { transform: scale(1.1); box-shadow: 0 0 20px #22c55e; } }
-    .buy-btn { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-    .buy-btn:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(0,0,0,0.5), 0 0 10px rgba(255,255,255,0.3); }
+
+    header img {
+      width: 280px;
+      border-radius: 20px;
+      opacity: 0;
+      transform: scale(0.8);
+      animation: fadeIn 2s ease forwards;
+      animation-delay: 0.8s;
+    }
+
+    header h1 {
+      font-size: 2.5em;
+      color: #b800ff;
+      opacity: 0;
+      transform: translateX(100%);
+      animation: slideIn 2s ease forwards;
+      animation-delay: 1.5s;
+      margin-top: 20px;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes slideIn {
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    section {
+      padding: 60px 20px;
+      background: #111;
+      min-height: 100vh;
+    }
+
+    h2 {
+      text-align: center;
+      color: #b800ff;
+      margin-bottom: 30px;
+    }
+
+    .produk-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px #b800ff44;
+    }
+
+    .card h3 {
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .price {
+      color: #b800ff;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 15px;
+      background: #b800ff;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.3s;
+      margin: 5px;
+    }
+
+    .btn:hover {
+      background: #7a00b3;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #0a0a0a;
+      border-top: 1px solid #333;
+      color: #666;
+    }
   </style>
 </head>
-<body class="text-white font-sans">
+<body>
+  <header>
+    <img src="https://files.catbox.moe/4l7s2x.jpg" alt="YANZ SHADOW" />
+    <h1>WELCOME TO YANZ STOR</h1>
+  </header>
 
-  <!-- Loading -->
-  <div id="loading" class="fixed inset-0 flex flex-col items-center justify-center bg-gray-900 z-50 space-y-4">
-    <h1 id="typingText" class="text-2xl font-bold text-green-400 typing"></h1>
-    <button id="enterBtn" class="bg-green-500 px-4 py-2 rounded-lg shadow hover:bg-green-600 text-white">Masuk ke Store</button>
-  </div>
+  <section>
+    <h2>🔥 MENU JUALAN PANEL 🔥</h2>
+    <div class="produk-grid" id="panel-list"></div>
+  </section>
 
-  <!-- Konten -->
-  <div id="content" class="fade-in">
-    <!-- Header -->
-    <header class="bg-gray-800/80 backdrop-blur-md shadow-lg p-4 text-center rounded-b-2xl">
-      <h1 class="text-2xl font-bold">🛒 Store Panel & Nokos</h1>
-      <p class="text-sm text-gray-300">Channel Dev: 
-        <a href="https://whatsapp.com/channel/0029Vb61nTsCsU9WCwUwkj1s" target="_blank" class="text-green-400 underline">Klik Disini</a>
-      </p>
-    </header>
+  <section>
+    <h2>💀 SCRIPT BUG WA 💀</h2>
+    <div class="produk-grid" id="script-list"></div>
+  </section>
 
-    <!-- Main -->
-    <main class="p-6 space-y-6 max-w-3xl mx-auto">
-
-      <!-- PANEL RAM -->
-      <section class="bg-gray-800/80 rounded-xl p-5 shadow space-y-4">
-        <h2 class="text-xl font-semibold mb-3">📌 Menu Panel RAM</h2>
-        <div class="space-y-4" id="ramList"></div>
-      </section>
-
-      <!-- PANEL UNLIMITED -->
-      <section class="bg-gray-800/80 rounded-xl p-5 shadow space-y-4">
-        <h2 class="text-xl font-semibold mb-3">📌 Panel Unlimited</h2>
-        <div class="space-y-4" id="unliList"></div>
-      </section>
-
-      <!-- AKSES PANEL -->
-      <section class="bg-gray-800/80 rounded-xl p-5 shadow space-y-4">
-        <h2 class="text-xl font-semibold mb-3">📌 Akses Panel</h2>
-        <div>
-          <p>Reseller - 5K</p>
-          <p>Admin - 10K</p>
-          <p>PT - 15K</p>
-          <p>Owner - 20K</p>
-          <div class="flex space-x-2 mt-2">
-            <a href="https://wa.me/6265719253841?text=BG%20YANZ%20mau%20beli%20Akses%20Panel" class="buy-btn bg-green-500 px-3 py-1 rounded-lg text-sm">WhatsApp</a>
-            <a href="https://t.me/Yanztiandi?text=BG%20YANZ%20mau%20beli%20Akses%20Panel" class="buy-btn bg-blue-500 px-3 py-1 rounded-lg text-sm">Telegram</a>
-            <a href="mailto:aingweh71@gmail.com?subject=Order%20Akses%20Panel&body=BG%20YANZ%20mau%20beli%20Akses%20Panel" class="buy-btn bg-yellow-500 px-3 py-1 rounded-lg text-sm">Gmail</a>
-          </div>
-        </div>
-      </section>
-
-      <!-- NOKOS WA -->
-      <section class="bg-gray-800/80 rounded-xl p-5 shadow space-y-4">
-        <h2 class="text-xl font-semibold mb-3">📌 Nokos WA Indonesia</h2>
-        <div>
-          <p>SV 5 Tahun - 25K</p>
-          <p>SV 1 Tahun - 20K</p>
-          <p>SV 3 Bulan - 15K</p>
-          <div class="flex space-x-2 mt-2">
-            <a href="https://wa.me/6265719253841?text=BG%20YANZ%20mau%20beli%20Nokos%20WA" class="buy-btn bg-green-500 px-3 py-1 rounded-lg text-sm">WhatsApp</a>
-            <a href="https://t.me/Yanztiandi?text=BG%20YANZ%20mau%20beli%20Nokos%20WA" class="buy-btn bg-blue-500 px-3 py-1 rounded-lg text-sm">Telegram</a>
-            <a href="mailto:aingweh71@gmail.com?subject=Order%20Nokos%20WA&body=BG%20YANZ%20mau%20beli%20Nokos%20WA" class="buy-btn bg-yellow-500 px-3 py-1 rounded-lg text-sm">Gmail</a>
-          </div>
-        </div>
-      </section>
-
-      <!-- NOKOS TELEGRAM -->
-      <section class="bg-gray-800/80 rounded-xl p-5 shadow space-y-4">
-        <h2 class="text-xl font-semibold mb-3">📌 Nokos Telegram Indonesia</h2>
-        <p>10K (Sisa 3)</p>
-        <div class="flex space-x-2 mt-2">
-          <a href="https://wa.me/6265719253841?text=BG%20YANZ%20mau%20beli%20Nokos%20Telegram%20Indonesia%20-%2010K" class="buy-btn bg-green-500 px-3 py-1 rounded-lg text-sm">WhatsApp</a>
-          <a href="https://t.me/Yanztiandi?text=BG%20YANZ%20mau%20beli%20Nokos%20Telegram%20Indonesia%20-%2010K" class="buy-btn bg-blue-500 px-3 py-1 rounded-lg text-sm">Telegram</a>
-          <a href="mailto:aingweh71@gmail.com?subject=Order%20Nokos%20Telegram&body=BG%20YANZ%20mau%20beli%20Nokos%20Telegram%20Indonesia%20-%2010K" class="buy-btn bg-yellow-500 px-3 py-1 rounded-lg text-sm">Gmail</a>
-        </div>
-      </section>
-
-      <!-- SCRIPT / SC -->
-      <section class="bg-gray-800/80 rounded-xl p-5 shadow space-y-4">
-        <h2 class="text-xl font-semibold mb-3">📌 Script (SC)</h2>
-        <div>
-          <p>SC Hideung Death ENC - 10K</p>
-          <p>SC Hideung Death NO ENC - 15K</p>
-          <div class="flex space-x-2 mt-2">
-            <a href="https://wa.me/6265719253841?text=BG%20YANZ%20mau%20beli%20SC%20Hideung%20Death" class="buy-btn bg-green-500 px-3 py-1 rounded-lg text-sm">WhatsApp</a>
-            <a href="https://t.me/Yanztiandi?text=BG%20YANZ%20mau%20beli%20SC%20Hideung%20Death" class="buy-btn bg-blue-500 px-3 py-1 rounded-lg text-sm">Telegram</a>
-            <a href="mailto:aingweh71@gmail.com?subject=Order%20Script%20Hideung%20Death&body=BG%20YANZ%20mau%20beli%20Script%20Hideung%20Death" class="buy-btn bg-yellow-500 px-3 py-1 rounded-lg text-sm">Gmail</a>
-          </div>
-        </div>
-      </section>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-gray-800/80 text-center p-3 mt-8 text-gray-400 text-sm rounded-t-2xl">
-      © 2025 Store Panel & Nokos. All rights reserved.
-    </footer>
-  </div>
+  <footer>
+    © 2025 YANZ STOR | All Rights Reserved
+  </footer>
 
   <script>
-    // Animasi typing
-    const text = "Welcome to Yanztiandi Store";
-    const typingText = document.getElementById("typingText");
-    let index = 0, isDeleting = false;
-    function typeLoop() {
-      if (!isDeleting && index <= text.length) {
-        typingText.textContent = text.substring(0, index);
-        index++;
-        setTimeout(typeLoop, 100);
-      } else if (isDeleting && index >= 0) {
-        typingText.textContent = text.substring(0, index);
-        index--;
-        setTimeout(typeLoop, 50);
-      }
-      if (index === text.length) { setTimeout(() => { isDeleting = true; typeLoop(); }, 1000); }
-      else if (isDeleting && index === 0) { isDeleting = false; setTimeout(typeLoop, 300); }
-    }
-    typeLoop();
+    const waNumber = "6285719253841";
+    const telegramUser = "yanztiandi";
 
-    // Tombol masuk
-    const enterBtn = document.getElementById("enterBtn");
-    enterBtn.addEventListener("click", () => {
-      document.getElementById("loading").classList.add("fade-out");
-      document.getElementById("content").classList.add("show");
-    });
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        document.getElementById("loading").classList.add("fade-out");
-        document.getElementById("content").classList.add("show");
-      }
-    });
+    const panels = [
+      { name: "Panel RAM 1 GB", price: "Rp 1.000" },
+      { name: "Panel RAM 2 GB", price: "Rp 2.000" },
+      { name: "Panel RAM 3 GB", price: "Rp 3.000" },
+      { name: "Panel RAM 4 GB", price: "Rp 4.000" },
+      { name: "Panel RAM 5 GB", price: "Rp 5.000" },
+      { name: "Panel RAM 6 GB", price: "Rp 6.000" },
+      { name: "Panel RAM 7 GB", price: "Rp 7.000" },
+      { name: "Panel RAM 8 GB", price: "Rp 8.000" },
+      { name: "Panel RAM 9 GB", price: "Rp 9.000" },
+      { name: "Panel RAM 10 GB", price: "Rp 10.000" },
+      { name: "PANEL UNLIMITED", price: "Rp 5.000" },
+      { name: "AKSES PANEL", price: "Rp 6.000" },
+      { name: "ADMIN PANEL", price: "Rp 8.000" },
+      { name: "PT PANEL", price: "Rp 10.000" },
+      { name: "OWNER PANEL", price: "Rp 12.000" },
+    ];
 
-    // Generate RAM
-    const ramList = document.getElementById("ramList");
-    const unliList = document.getElementById("unliList");
-    const hargaAwal = 10;
-    for (let i=1; i<=10; i++) {
-      let harga = hargaAwal + (i-1)*2;
-      ramList.innerHTML += `
-        <div>
-          <p>RAM ${i}GB - ${harga}K</p>
-          <div class="flex space-x-2 mt-2">
-            <a href="https://wa.me/6265719253841?text=BG%20YANZ%20mau%20beli%20RAM%20${i}GB%20-%20${harga}K" class="buy-btn bg-green-500 px-3 py-1 rounded-lg text-sm">WhatsApp</a>
-            <a href="https://t.me/Yanztiandi?text=BG%20YANZ%20mau%20beli%20RAM%20${i}GB%20-%20${harga}K" class="buy-btn bg-blue-500 px-3 py-1 rounded-lg text-sm">Telegram</a>
-            <a href="mailto:aingweh71@gmail.com?subject=Order%20RAM%20${i}GB&body=BG%20YANZ%20mau%20beli%20RAM%20${i}GB%20-%20${harga}K" class="buy-btn bg-yellow-500 px-3 py-1 rounded-lg text-sm">Gmail</a>
-          </div>
-        </div>
-      `;
-      let hargaUnli = harga + 3;
-      unliList.innerHTML += `
-        <div>
-          <p>Panel Unlimited RAM ${i}GB - ${hargaUnli}K</p>
-          <div class="flex space-x-2 mt-2">
-            <a href="https://wa.me/6265719253841?text=BG%20YANZ%20mau%20beli%20Panel%20Unlimited%20RAM%20${i}GB%20-%20${hargaUnli}K" class="buy-btn bg-green-500 px-3 py-1 rounded-lg text-sm">WhatsApp</a>
-            <a href="https://t.me/Yanztiandi?text=BG%20YANZ%20mau%20beli%20Panel%20Unlimited%20RAM%20${i}GB%20-%20${hargaUnli}K" class="buy-btn bg-blue-500 px-3 py-1 rounded-lg text-sm">Telegram</a>
-            <a href="mailto:aingweh71@gmail.com?subject=Order%20Panel%20Unlimited%20RAM%20${i}GB&body=BG%20YANZ%20mau%20beli%20Panel%20Unlimited%20RAM%20${i}GB%20-%20${hargaUnli}K" class="buy-btn bg-yellow-500 px-3 py-1 rounded-lg text-sm">Gmail</a>
-          </div>
+    const scripts = [
+      { name: "HIDEUNG CRASH (ENC)", price: "Hubungi Admin" },
+      { name: "HIDEUNG CRASH (NO ENC)", price: "Hubungi Admin" },
+    ];
+
+    const panelContainer = document.getElementById("panel-list");
+    const scriptContainer = document.getElementById("script-list");
+
+    function makeCard(item) {
+      const msg = encodeURIComponent(`Bang Yanz, mau buy ${item.name}`);
+      return `
+        <div class="card">
+          <h3>${item.name}</h3>
+          <p class="price">${item.price}</p>
+          <a href="https://wa.me/${waNumber}?text=${msg}" target="_blank" class="btn">Buy via WhatsApp</a>
+          <a href="https://t.me/${telegramUser}" target="_blank" class="btn">Buy via Telegram</a>
         </div>
       `;
     }
+
+    panelContainer.innerHTML = panels.map(makeCard).join("");
+    scriptContainer.innerHTML = scripts.map(makeCard).join("");
   </script>
 </body>
 </html>
